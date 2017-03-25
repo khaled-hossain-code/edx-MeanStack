@@ -1,16 +1,21 @@
-const mongodb = require('mongodb');
+var mongoose = require('mongoose'),
+    userSchema = require('./models/user');
 
-const uri = 'mongodb://localhost:27017/example';
+const uri = 'mongodb://localhost:27017/test';
 
-mongodb.MongoClient.connect(uri, function(err, db){
+mongoose.connect(uri);
+
+var User = mongoose.model('User',userSchema,'users');
+
+var user = new User({
+    name:'John',
+    email: 'john@smith.com'
+});
+
+user.save(function(err,doc){
     if(err){
-        console.log('unable to connect to mongodb');
-        process.exit(1);
-    } 
+        console.log('could not save in user');
+    }
 
-    db.collection('test').insert({'hello':'mongodb'});
-    db.collection('test').find({}).toArray(function(err, docs){
-        console.log(docs);
-    })
-
+    console.log(doc);
 })
