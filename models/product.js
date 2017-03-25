@@ -18,5 +18,17 @@ var productSchema = {
     category: Category.categorySchema
 };
 
-module.exports = new mongoose.Schema(productSchema);
+var schema = new mongoose.Schema(productSchema);
+
+var currencySymbols = {
+    'USD' : '$',
+    'EUR' : 'E',
+    'BDT' : 'Tk'
+};
+
+schema.virtual('displayPrice').get(function(){
+    return currencySymbols[this.price.currency] + ' ' + this.price.amount;
+});
+
+module.exports = schema;
 module.exports.productSchema = productSchema;

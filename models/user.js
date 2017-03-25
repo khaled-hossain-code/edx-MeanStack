@@ -1,20 +1,28 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-var personSchema = new Schema({
-    name:{
-        type: String,
-        required: true
+var userSchema = new Schema({
+    profile: {
+        username:{
+            type:String,
+            required: true,
+            lowercase: true
+        },
+        picture:{
+            type: String,
+            match: /^http:\/\//i
+        }
     },
-    email:{
-        type:String,
-        required:true,
-        match: /.+@.+\..+/,
-        lowercase: true
-    },
-    loggedInCount:{
-        type:Number,
-        default: 0
+    data:{
+        oauth:{
+            type: String,
+            required: true
+        },
+        cart:[{
+            product:{
+                type: mongoose.Schema.Types.ObjectId
+            }
+        }]
     }
 });
 
